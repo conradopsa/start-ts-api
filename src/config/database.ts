@@ -4,6 +4,8 @@ import { highDebug } from '../utils/debugLevel';
 import { greenBright, red } from 'chalk';
 import { toBoolean } from '../utils/convert';
 
+const usuario = require('../models/usuario');
+
 //Init .env
 dotenv.config();
 
@@ -16,10 +18,17 @@ export default class Database {
 
     public sequelize: Sequelize;
 
+    private sqlDebug: boolean | (() => void);
+
     constructor(){
+        this.sqlDebug = toBoolean(SQL_DEBUG) ? log : false
+
         this.sequelize = new Sequelize(URI, <Options>{
-            logging: toBoolean(SQL_DEBUG) ? log : false
+            logging: this.sqlDebug,
+            freezeTableName: true
         });
+
+        this.initModels();
     }
 
     public async connect() {
@@ -35,6 +44,22 @@ export default class Database {
             error(`${red(exception)}`);
         }
     };
+
+    public async sync() {
+        log(`[Sequelize] Sincronizando Banco de Dados`);
+
+        try {        
+            await this.sequelize.sync({logging: this.sqlDebug});
+            log(`${greenBright('[Sequelize] Banco de Dados criado!')}`);
+        } catch (exception) {
+            error(`${red('[Sequelize] Erro ao criar o Banco de Dados')}`);
+            error(`${red(exception)}`);
+        }
+    };
+
+    private async initModels(){
+        usuario.init(this.sequelize);
+    }
 }
 
 

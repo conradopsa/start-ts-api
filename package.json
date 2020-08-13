@@ -6,6 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "compile": "tsc & node build/app.js",
+    "clear": "tsc & node build/tasks/clear.js",
     "watch": "nodemon --config watch-config.json"
   },
   "keywords": [],

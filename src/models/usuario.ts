@@ -18,7 +18,6 @@ export const attributes: ModelAttributes = {
 };
 
 export function init(sequelize: Sequelize) {
-
     const initOptions: InitOptions = {
         sequelize: sequelize
     }

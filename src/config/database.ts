@@ -1,12 +1,10 @@
 import dotenv from 'dotenv';
 import { Sequelize, Options } from 'sequelize';
 import { highDebug } from '../utils/debugLevel';
-import { greenBright, red } from 'chalk';
+import { greenBright, green, red, white, whiteBright } from 'chalk';
 import { toBoolean } from '../utils/convert';
 
-
-import { models, ModelModule } from '../models';
-
+import { models } from '../models';
 
 //Init .env
 dotenv.config();
@@ -40,31 +38,38 @@ export default class Database {
         //Testing connection. . .
         try {
             await this.sequelize.authenticate();
-            log(`${greenBright('[Sequelize] Conexão realizada com sucesso!')}`);
+            log(`${whiteBright('[Sequelize] Conexão realizada com sucesso!')}`);
+
+            await this.sync(true);
+
         } catch (exception) {
             error(`${red('[Sequelize] Erro ao conectar-se ao banco de dados: ')}`);
             error(`${red(exception)}`);
         }
     };
 
-    public async sync() {
-        log(`[Sequelize] Sincronizando Banco de Dados`);
-
+    public async sync(force = false) {
+        log('[Sequelize] Sincronizando. . .');
         try {
-            await this.sequelize.sync({ logging: this.sqlDebug });
-            log(`${greenBright('[Sequelize] Banco de Dados criado!')}`);
+            const syncOptions = { logging: this.sqlDebug, force: force }
+            highDebug(`[Sequelize] syncOptions = \n${JSON.stringify(syncOptions)}!`);
+            await this.sequelize.sync(syncOptions);
+
+            log(`${whiteBright('[Sequelize] Sincronizado!')}`);
         } catch (exception) {
-            error(`${red('[Sequelize] Erro ao criar o Banco de Dados')}`);
+            error(`${red('[Sequelize] Erro ao sincronizar o Banco de Dados')}`);
             error(`${red(exception)}`);
         }
     };
 
     private async initModels() {
-        models.then((models) => {
+        await models.then((models) => {
             models.forEach((model) => {
-                model.init(this.sequelize);                
+                model.init(this.sequelize);
             })
         })
+
+        highDebug("Models iniciadas!");
     }
 }
 

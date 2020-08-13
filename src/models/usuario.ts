@@ -1,7 +1,7 @@
 import { Model, Sequelize, ModelAttributes, InitOptions, DataTypes } from 'sequelize'
 
 
-class Usuario extends Model {
+export default class Usuario extends Model {
     public cpf!: number;
     public email!: string;
     public nomeCompleto!: string;
@@ -9,18 +9,19 @@ class Usuario extends Model {
     public dataNascimento!: Date;
 }
 
-export function init(sequelize: Sequelize) {
-    let modelAttributes = <ModelAttributes>{
-        cpf: { type: DataTypes.BIGINT, primaryKey: true },
-        email: { type: DataTypes.STRING },
-        nomeCompleto: { type: DataTypes.STRING },
-        senha: { type: DataTypes.STRING },
-        dataNascimento: { type: DataTypes.DATEONLY }
-    };
+export const attributes: ModelAttributes = {
+    cpf: { type: DataTypes.BIGINT, primaryKey: true },
+    email: { type: DataTypes.STRING, allowNull: false },
+    nomeCompleto: { type: DataTypes.STRING, allowNull: false },
+    senha: { type: DataTypes.STRING, allowNull: false },
+    dataNascimento: { type: DataTypes.DATEONLY, allowNull: false }
+};
 
-    let initOptions = <InitOptions>{
+export function init(sequelize: Sequelize) {
+
+    const initOptions: InitOptions = {
         sequelize: sequelize
     }
 
-    Usuario.init(modelAttributes, initOptions);
+    Usuario.init(attributes, initOptions);
 }

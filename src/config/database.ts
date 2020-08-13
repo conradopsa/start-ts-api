@@ -4,7 +4,9 @@ import { highDebug } from '../utils/debugLevel';
 import { greenBright, red } from 'chalk';
 import { toBoolean } from '../utils/convert';
 
-const usuario = require('../models/usuario');
+
+import { models, ModelModule } from '../models';
+
 
 //Init .env
 dotenv.config();
@@ -20,7 +22,7 @@ export default class Database {
 
     private sqlDebug: boolean | (() => void);
 
-    constructor(){
+    constructor() {
         this.sqlDebug = toBoolean(SQL_DEBUG) ? log : false
 
         this.sequelize = new Sequelize(URI, <Options>{
@@ -36,7 +38,7 @@ export default class Database {
         log(`[Sequelize] Conectando-se ao banco de dados. . .`);
 
         //Testing connection. . .
-        try {        
+        try {
             await this.sequelize.authenticate();
             log(`${greenBright('[Sequelize] Conexão realizada com sucesso!')}`);
         } catch (exception) {
@@ -48,8 +50,8 @@ export default class Database {
     public async sync() {
         log(`[Sequelize] Sincronizando Banco de Dados`);
 
-        try {        
-            await this.sequelize.sync({logging: this.sqlDebug});
+        try {
+            await this.sequelize.sync({ logging: this.sqlDebug });
             log(`${greenBright('[Sequelize] Banco de Dados criado!')}`);
         } catch (exception) {
             error(`${red('[Sequelize] Erro ao criar o Banco de Dados')}`);
@@ -57,8 +59,12 @@ export default class Database {
         }
     };
 
-    private async initModels(){
-        usuario.init(this.sequelize);
+    private async initModels() {
+        models.then((models) => {
+            models.forEach((model) => {
+                model.init(this.sequelize);                
+            })
+        })
     }
 }
 

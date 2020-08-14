@@ -6,14 +6,14 @@ export default class IngressoComprado extends Model {
 }
 
 export const attributes: ModelAttributes = {
-    cpfCliente: { type: DataTypes.BIGINT, references: { model: 'usuario', key: 'cpf' } },
-    codigoIngresso: { type: DataTypes.INTEGER, allowNull: false,  references: { model: 'ingresso', key: 'codigo' } }
+    cpfCliente: { type: DataTypes.BIGINT, references: { model: 'Usuario', key: 'cpf' } },
+    codigoIngresso: { type: DataTypes.INTEGER, allowNull: false,  references: { model: 'Ingresso', key: 'codigo' } }
 };
 
 export function init(sequelize: Sequelize) {
         const initOptions: InitOptions = {
             sequelize: sequelize,
-            tableName: 'ingresso_comprado'
+            freezeTableName: true
         }
     
         IngressoComprado.init(attributes, initOptions);

@@ -17,7 +17,7 @@ export function init(sequelize: Sequelize) {
 
     const initOptions: InitOptions = {
         sequelize: sequelize,
-        tableName: 'ingresso'
+        freezeTableName: true
     }
 
     Ingresso.init(attributes, initOptions);

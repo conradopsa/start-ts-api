@@ -8,7 +8,7 @@ export default class Ingresso extends Model {
 }
 
 export const attributes: ModelAttributes = {
-    codigo: { type: DataTypes.BIGINT, primaryKey: true },
+    codigo: { type: DataTypes.INTEGER, primaryKey: true },
     valor: { type: DataTypes.STRING, allowNull: false },
     descricao: { type: DataTypes.STRING }
 };
@@ -16,7 +16,8 @@ export const attributes: ModelAttributes = {
 export function init(sequelize: Sequelize) {
 
     const initOptions: InitOptions = {
-        sequelize: sequelize
+        sequelize: sequelize,
+        tableName: 'ingresso'
     }
 
     Ingresso.init(attributes, initOptions);

@@ -24,8 +24,7 @@ export default class Database {
         this.sqlDebug = toBoolean(SQL_DEBUG) ? log : false
 
         this.sequelize = new Sequelize(URI, <Options>{
-            logging: this.sqlDebug,
-            freezeTableName: true
+            logging: this.sqlDebug
         });
 
         this.initModels();

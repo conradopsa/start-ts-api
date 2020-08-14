@@ -19,7 +19,8 @@ export const attributes: ModelAttributes = {
 
 export function init(sequelize: Sequelize) {
     const initOptions: InitOptions = {
-        sequelize: sequelize
+        sequelize: sequelize,
+        tableName: 'usuario'
     }
 
     Usuario.init(attributes, initOptions);

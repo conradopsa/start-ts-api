@@ -1,7 +1,7 @@
 import dotenv from 'dotenv';
 import { Sequelize, Options } from 'sequelize';
 import { highDebug } from '../utils/debugLevel';
-import { greenBright, green, red, white, whiteBright } from 'chalk';
+import { red, whiteBright } from 'chalk';
 import { toBoolean } from '../utils/convert';
 
 import { models } from '../models';
@@ -30,16 +30,18 @@ export default class Database {
         this.initModels();
     }
 
-    public async connect() {
+    public async connect(synchronize: boolean = true) {
         highDebug(`[Sequelize] URI do banco = ${URI}`);
-        log(`[Sequelize] Conectando-se ao banco de dados. . .`);
+        log(`[Sequelize] Conectando-se. . .`);
 
-        //Testing connection. . .
+        
         try {
+            //Testing connection. . .
             await this.sequelize.authenticate();
             log(`${whiteBright('[Sequelize] Conexão realizada com sucesso!')}`);
 
-            await this.sync(true);
+            if (synchronize)
+                await this.sync(true);
 
         } catch (exception) {
             error(`${red('[Sequelize] Erro ao conectar-se ao banco de dados: ')}`);
@@ -47,7 +49,7 @@ export default class Database {
         }
     };
 
-    public async sync(force = false) {
+    private async sync(force = false) {
         log('[Sequelize] Sincronizando. . .');
         try {
             const syncOptions = { logging: this.sqlDebug, force: force }

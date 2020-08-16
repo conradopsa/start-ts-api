@@ -7,18 +7,20 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "compile": "tsc & node build/app.js",
     "clear": "tsc & node build/tasks/clear.js",
-	"clear:compile": "npm run clear -- -f & npm run compile",
+    "clear:compile": "npm run clear -- -f & npm run compile",
     "watch": "nodemon --config watch-config.json",
-	"clear:watch": "nodemon --config watch-config.json --exec \"npm run clear:compile\""
+    "clear:watch": "nodemon --config watch-config.json --exec \"npm run clear:compile\""
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@types/express": "^4.17.7",
     "@types/node": "^14.0.27",
     "@types/validator": "^13.1.0",
     "chalk": "^4.1.0",
     "dotenv": "^8.2.0",
+    "express": "^4.17.1",
     "pg": "^8.3.0",
     "pg-hstore": "^2.3.3",
     "sequelize": "^6.3.4",

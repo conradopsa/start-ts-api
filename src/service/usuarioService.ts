@@ -6,10 +6,8 @@ class UsuarioService {
     async getUsuario(request: Request, response: Response) {
         const { cpf } = request.params;
 
-        await Usuario.findByPk(cpf).then(
-            (user) => {
-                response.json(user);
-            })
+        await Usuario.findByPk(cpf)
+            .then((user) => response.json(user))
             .catch((error: Error) =>
                 responseSequelizeError(error, response));
     }
@@ -17,13 +15,11 @@ class UsuarioService {
     async postUsuario(request: Request, response: Response) {
         const body = request.body;
 
-        try {
-            const newUser = await Usuario.create(body);
-            response.json(newUser);
-        }
-        catch (error) {
-            responseSequelizeError(error, response)
-        }
+        const newUser = await Usuario.create(body)
+            .catch((error: Error) =>
+                responseSequelizeError(error, response));
+
+        response.json(newUser);
     }
 }
 

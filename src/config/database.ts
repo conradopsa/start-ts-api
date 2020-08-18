@@ -3,16 +3,23 @@ import { Sequelize, Options } from 'sequelize';
 import { highDebug } from '../utils/debugLevel';
 import { red, whiteBright } from 'chalk';
 import { toBoolean } from '../utils/convert';
-
 import { models } from '../models';
 
 //Init .env
 dotenv.config();
 
-const { DB_MS, DB_HOST, DB_PORT, DB_NAME, DB_USER, DB_PASS, SQL_DEBUG } = process.env;
+const { DB_MS, DB_HOST, DB_PORT, DB_NAME, DB_USER, DB_PASS, SQL_DEBUG, SEQUELIZE_SYNC } = process.env;
 const { log, error } = console;
 
 const URI = `${DB_MS}://${DB_USER}:${DB_PASS}@${DB_HOST}:${DB_PORT}/${DB_NAME}`;
+
+export enum SyncTypes {
+    DEFAULT,
+    ALTER,
+    FORCE
+}
+
+export type SyncTypesStrings = keyof typeof SyncTypes;
 
 export default class Database {
 
@@ -34,14 +41,14 @@ export default class Database {
         highDebug(`[Sequelize] URI do banco = ${URI}`);
         log(`[Sequelize] Conectando-se. . .`);
 
-        
+
         try {
             //Testing connection. . .
             await this.sequelize.authenticate();
             log(`${whiteBright('[Sequelize] Conexão realizada com sucesso!')}`);
 
             if (synchronize)
-                await this.sync(true);
+                await this.sync();
 
         } catch (exception) {
             error(`${red('[Sequelize] Erro ao conectar-se ao banco de dados: ')}`);
@@ -49,11 +56,19 @@ export default class Database {
         }
     };
 
-    private async sync(force = false) {
+    private async sync() {
         log('[Sequelize] Sincronizando. . .');
         try {
-            const syncOptions = { logging: this.sqlDebug, force: force }
-            highDebug(`[Sequelize] syncOptions = \n${JSON.stringify(syncOptions)}!`);
+            const syncType = SyncTypes[<SyncTypesStrings>SEQUELIZE_SYNC];
+            
+            const syncOptions = {
+                logging: this.sqlDebug,
+                force: syncType == SyncTypes.FORCE,
+                alter: syncType == SyncTypes.ALTER,
+            }
+
+            highDebug(`[Sequelize] syncOptions = \n${JSON.stringify(syncOptions)}`);
+
             await this.sequelize.sync(syncOptions);
 
             log(`${whiteBright('[Sequelize] Sincronizado!')}`);
@@ -70,11 +85,6 @@ export default class Database {
             })
         })
 
-        highDebug("Models iniciadas!");
+        highDebug("[Sequelize] Models iniciadas!");
     }
 }
-
-
-
-
-

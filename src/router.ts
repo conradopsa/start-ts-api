@@ -2,11 +2,10 @@ import { Router } from 'express';
 import bodyParser from 'body-parser';
 
 import statusService from './service/statusService';
-
 import usuariosService from './service/usuariosService';
+import usuarioService from './service/usuarioService';
 
 import { allowCORS } from './middleware/allowCORS';
-
 
 const router = Router();
 
@@ -20,5 +19,10 @@ router.use(allowCORS);
 router.use('/status', statusService.status);
 
 router.use('/usuarios', usuariosService.listUsuarios);
+
+router.get('/usuario/:cpf', usuarioService.getUsuario);
+router.post('/usuario', usuarioService.postUsuario);
+/*router.use('/usuario/:cpf', usuarioService.pathUsuario);
+router.use('/usuario/:cpf', usuarioService.deleteUsuario);*/
 
 export default router;

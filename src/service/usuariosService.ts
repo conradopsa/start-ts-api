@@ -11,8 +11,8 @@ class UsuariosService {
             (users) => {
                 response.json(users);
             })
-            .catch((err: Error) =>
-                responseSequelizeError(err, response));
+            .catch((error: Error) =>
+                responseSequelizeError(error, response));
 
     }
 }

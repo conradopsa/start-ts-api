@@ -13,7 +13,7 @@ export default class fileUtils {
         const dirents: Dirent[] = await readdir(dir, { withFileTypes: true });
         const files = await Promise.all(dirents.map((dirent: Dirent) => {
             const res = resolve(dir.toString(), dirent.name);
-            return dirent.isDirectory() ? this.getFilesRecursive(res) : res;
+            return dirent.isDirectory() ? fileUtils.getFilesRecursive(res) : res;
         }));
         return Array.prototype.concat(...files);
     }

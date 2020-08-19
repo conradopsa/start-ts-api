@@ -1,11 +1,19 @@
 import { Router } from 'express';
+import path from 'path';
+import { getRecursiveImports } from '../utils/autoImport';
 
-import status from './status';
-import usuario from './usuario';
+const routerExport = Router();
 
-const router = Router();
+async function getRouters(): Promise<Router[]> {
+    const CURRENT_DIR = path.dirname(__filename);
 
-router.use(status);
-router.use(usuario);
+    return await getRecursiveImports(CURRENT_DIR);
+}
 
-export default router;
+getRouters().then(
+    routers => routers.forEach(
+        router => routerExport.use(router)
+    )
+)
+
+export default routerExport;

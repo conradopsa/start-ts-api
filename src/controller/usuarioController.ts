@@ -10,9 +10,9 @@ class UsuarioController {
     
 
     async getUsuario(request: Request, response: Response) {
-        const { cpf } = request.params;
+        const { id } = request.params;
 
-        await Usuario.findByPk(cpf)
+        await Usuario.findByPk(id)
             .then((user) => {
                 if (user)
                     response.json(user)
@@ -35,10 +35,10 @@ class UsuarioController {
     }
 
     async putUsuario(request: Request, response: Response) {
-        const { cpf } = request.params;
+        const { id } = request.params;
         const body = request.body;
 
-        await Usuario.findByPk(cpf).then(user => {
+        await Usuario.findByPk(id).then(user => {
             if (user)
                 user.update(body).then(user => response.send(user));
             else

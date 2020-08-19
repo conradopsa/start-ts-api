@@ -60,7 +60,7 @@ export default class Database {
         log('[Sequelize] Sincronizando. . .');
         try {
             const syncType = SyncTypes[<SyncTypesStrings>SEQUELIZE_SYNC];
-            
+
             const syncOptions = {
                 logging: this.sqlDebug,
                 force: syncType == SyncTypes.FORCE,
@@ -79,11 +79,9 @@ export default class Database {
     };
 
     private async initModels() {
-        await models.then((models) => {
-            models.forEach((model) => {
-                model.init(this.sequelize);
-            })
-        })
+        await models.then(models => models
+            .forEach(model => model.init(this.sequelize))
+        )
 
         highDebug("[Sequelize] Models iniciadas!");
     }

@@ -6,7 +6,7 @@ function userNotFound(response: Response) {
     response.status(404).send("Usuário não encontrado");
 }
 
-class UsuarioService {
+class UsuarioController {
     
 
     async getUsuario(request: Request, response: Response) {
@@ -61,4 +61,4 @@ class UsuarioService {
     }
 }
 
-export default new UsuarioService();
+export default new UsuarioController();

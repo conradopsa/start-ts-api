@@ -3,7 +3,7 @@ import { Error } from 'sequelize';
 import { responseError } from '../utils/serviceResponse';
 import Usuario from '../models/usuario';
 
-class UsuariosService {
+class UsuariosController {
 
     async listUsuarios(request: Request, response: Response) {
 
@@ -17,4 +17,4 @@ class UsuariosService {
     }
 }
 
-export default new UsuariosService();
+export default new UsuariosController();

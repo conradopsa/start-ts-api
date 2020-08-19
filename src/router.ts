@@ -1,9 +1,9 @@
 import { Router } from 'express';
 import bodyParser from 'body-parser';
 
-import statusService from './service/statusService';
-import usuariosService from './service/usuariosService';
-import usuarioService from './service/usuarioService';
+import statusController from './controller/statusController';
+import usuariosController from './controller/usuariosController';
+import usuarioController from './controller/usuarioController';
 
 import { allowCORS } from './middleware/allowCORS';
 
@@ -16,13 +16,13 @@ router.use(bodyParser.json());
 //TEMPORARY
 router.use(allowCORS);
 
-router.use('/status', statusService.status);
+router.use('/status', statusController.status);
 
-router.use('/usuarios', usuariosService.listUsuarios);
+router.use('/usuarios', usuariosController.listUsuarios);
 
-router.get('/usuario/:cpf', usuarioService.getUsuario);
-router.post('/usuario', usuarioService.postUsuario);
-router.put('/usuario/:cpf', usuarioService.putUsuario);
-router.delete('/usuario/:cpf', usuarioService.deleteUsuario);
+router.get('/usuario/:cpf', usuarioController.getUsuario);
+router.post('/usuario', usuarioController.postUsuario);
+router.put('/usuario/:cpf', usuarioController.putUsuario);
+router.delete('/usuario/:cpf', usuarioController.deleteUsuario);
 
 export default router;

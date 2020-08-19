@@ -2,7 +2,7 @@ import Database from './config/database';
 import express, { Express } from 'express';
 import dotenv from 'dotenv';
 import { green } from 'chalk';
-import router from './router';
+import routers from './routers';
 
 //Init .env
 dotenv.config();
@@ -31,7 +31,7 @@ class App {
         await this.database.connect();
 
         //Import routers
-        this.app.use('/', router);
+        this.app.use('/', routers);
 
         this.app.listen(SERVER_PORT, () => {
             log(`${green(`Servidor Iniciado em http://localhost:${SERVER_PORT}/`)}`)

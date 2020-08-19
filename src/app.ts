@@ -3,6 +3,7 @@ import express, { Express } from 'express';
 import dotenv from 'dotenv';
 import { green } from 'chalk';
 import routers from './routers';
+import middleware from './middleware';
 
 //Init .env
 dotenv.config();
@@ -30,7 +31,8 @@ class App {
     public async start() {
         await this.database.connect();
 
-        //Import routers
+        this.app.use(middleware);
+
         this.app.use('/', routers);
 
         this.app.listen(SERVER_PORT, () => {

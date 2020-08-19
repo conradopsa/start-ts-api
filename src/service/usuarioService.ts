@@ -1,15 +1,27 @@
 import Usuario from "../models/usuario";
 import { Request, Response } from 'express';
-import { responseSequelizeError } from "../utils/serviceResponse";
+import { responseError, responseDeleted } from "../utils/serviceResponse";
+
+function userNotFound(response: Response) {
+    response.status(404).send("Usuário não encontrado");
+}
 
 class UsuarioService {
+    
+
     async getUsuario(request: Request, response: Response) {
         const { cpf } = request.params;
 
         await Usuario.findByPk(cpf)
-            .then((user) => response.json(user))
+            .then((user) => {
+                if (user)
+                    response.json(user)
+                else
+                    userNotFound(response);
+
+            })
             .catch((error: Error) =>
-                responseSequelizeError(error, response));
+                responseError(error, response));
     }
 
     async postUsuario(request: Request, response: Response) {
@@ -17,9 +29,35 @@ class UsuarioService {
 
         const newUser = await Usuario.create(body)
             .catch((error: Error) =>
-                responseSequelizeError(error, response));
+                responseError(error, response));
 
         response.json(newUser);
+    }
+
+    async putUsuario(request: Request, response: Response) {
+        const { cpf } = request.params;
+        const body = request.body;
+
+        await Usuario.findByPk(cpf).then(user => {
+            if (user)
+                user.update(body).then(user => response.send(user));
+            else
+                userNotFound(response);
+        })
+    }
+
+    async deleteUsuario(request: Request, response: Response) {
+        const { cpf } = request.params;
+
+        await Usuario.findByPk(cpf).then(user => {
+            if (user)
+                user.destroy().then(() =>
+                    responseDeleted(response, "Usuário deletado!", user));
+            else
+                userNotFound(response);
+        })
+            .catch((error: Error) =>
+                responseError(error, response));
     }
 }
 

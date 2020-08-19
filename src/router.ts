@@ -22,7 +22,7 @@ router.use('/usuarios', usuariosService.listUsuarios);
 
 router.get('/usuario/:cpf', usuarioService.getUsuario);
 router.post('/usuario', usuarioService.postUsuario);
-/*router.use('/usuario/:cpf', usuarioService.pathUsuario);
-router.use('/usuario/:cpf', usuarioService.deleteUsuario);*/
+router.put('/usuario/:cpf', usuarioService.putUsuario);
+router.delete('/usuario/:cpf', usuarioService.deleteUsuario);
 
 export default router;

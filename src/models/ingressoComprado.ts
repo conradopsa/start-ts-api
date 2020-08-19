@@ -1,13 +1,13 @@
 import { Model, Sequelize, ModelAttributes, InitOptions, DataTypes } from 'sequelize'
 
 export default class IngressoComprado extends Model {
-    public cpfCliente!: number;
+    public idCliente!: number;
     public codigoIngresso!: number;
 }
 
 export const attributes: ModelAttributes = {
-    cpfCliente: { type: DataTypes.BIGINT, references: { model: 'Usuario', key: 'cpf' } },
-    codigoIngresso: { type: DataTypes.INTEGER, allowNull: false,  references: { model: 'Ingresso', key: 'codigo' } }
+    idCliente: { type: DataTypes.BIGINT, references: { model: 'Usuario', key: 'id' } },
+    idIngresso: { type: DataTypes.INTEGER, allowNull: false,  references: { model: 'Ingresso', key: 'id' } }
 };
 
 export function init(sequelize: Sequelize) {

@@ -2,6 +2,7 @@ import { Model, Sequelize, ModelAttributes, InitOptions, DataTypes } from 'seque
 
 
 export default class Usuario extends Model {
+    public id!: number;
     public cpf!: number;
     public email!: string;
     public nomeCompleto!: string;
@@ -10,8 +11,9 @@ export default class Usuario extends Model {
 }
 
 export const attributes: ModelAttributes = {
-    cpf: { type: DataTypes.BIGINT, primaryKey: true },
-    email: { type: DataTypes.STRING, allowNull: false },
+    id: { type: DataTypes.BIGINT, primaryKey: true, autoIncrement: true },
+    cpf: { type: DataTypes.BIGINT, unique: true },
+    email: { type: DataTypes.STRING, allowNull: false, unique: true },
     nomeCompleto: { type: DataTypes.STRING, allowNull: false },
     senha: { type: DataTypes.STRING, allowNull: false },
     dataNascimento: { type: DataTypes.DATEONLY, allowNull: false }

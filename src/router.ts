@@ -20,9 +20,9 @@ router.use('/status', statusController.status);
 
 router.use('/usuarios', usuariosController.listUsuarios);
 
-router.get('/usuario/:cpf', usuarioController.getUsuario);
+router.get('/usuario/:id', usuarioController.getUsuario);
 router.post('/usuario', usuarioController.postUsuario);
-router.put('/usuario/:cpf', usuarioController.putUsuario);
-router.delete('/usuario/:cpf', usuarioController.deleteUsuario);
+router.put('/usuario/:id', usuarioController.putUsuario);
+router.delete('/usuario/:id', usuarioController.deleteUsuario);
 
 export default router;

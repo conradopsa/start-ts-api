@@ -2,13 +2,13 @@ import { Model, Sequelize, ModelAttributes, InitOptions, DataTypes } from 'seque
 
 
 export default class Ingresso extends Model {
-    public codigo!: number;
+    public id!: number;
     public valor!: number;
     public descricao!: string | null;
 }
 
 export const attributes: ModelAttributes = {
-    codigo: { type: DataTypes.INTEGER, primaryKey: true },
+    id: { type: DataTypes.BIGINT, primaryKey: true },
     valor: { type: DataTypes.STRING, allowNull: false },
     descricao: { type: DataTypes.STRING }
 };

@@ -1,4 +1,5 @@
 import Usuario from "../models/usuario";
+import IngressoComprado from "../models/ingressoComprado";
 import { Request, Response } from 'express';
 import { responseError, responseDeleted } from "../utils/serviceResponse";
 
@@ -11,8 +12,11 @@ class UsuarioController {
 
     async getUsuario(request: Request, response: Response) {
         const { id } = request.params;
+        const { ticketPurchased } = request.query;
 
-        await Usuario.findByPk(id)
+        await Usuario.findByPk(id, {
+            include: ticketPurchased ? IngressoComprado : undefined
+        })
             .then((user) => {
                 if (user)
                     response.json(user)

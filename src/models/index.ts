@@ -5,7 +5,8 @@ import { getRecursiveImports } from '../utils/autoImport';
 export interface ModelModule {
     default: Model,
     attributes: ModelAttributes,
-    init: ((sequelize: Sequelize) => void)
+    init: ((sequelize: Sequelize) => void),
+    associate: (() => void)
 }
 
 async function getModels(): Promise<ModelModule[]> {

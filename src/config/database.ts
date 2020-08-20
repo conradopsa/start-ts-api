@@ -31,7 +31,10 @@ export default class Database {
         this.sqlDebug = toBoolean(SQL_DEBUG) ? log : false
 
         this.sequelize = new Sequelize(URI, <Options>{
-            logging: this.sqlDebug
+            logging: this.sqlDebug,
+            define: {
+                freezeTableName: true
+            }
         });
 
         this.initModels();
@@ -70,8 +73,10 @@ export default class Database {
             highDebug(`[Sequelize] syncOptions = \n${JSON.stringify(syncOptions)}`);
 
             await this.sequelize.sync(syncOptions);
-
             log(`${whiteBright('[Sequelize] Sincronizado!')}`);
+
+            await this.associateModels();
+
         } catch (exception) {
             error(`${red('[Sequelize] Erro ao sincronizar o Banco de Dados')}`);
             error(`${red(exception)}`);
@@ -84,5 +89,13 @@ export default class Database {
         )
 
         highDebug("[Sequelize] Models iniciadas!");
+    }
+
+    private async associateModels() {
+        await models.then(models => models
+            .forEach(model => model.associate())
+        )
+
+        highDebug("[Sequelize] Associações realizadas!");
     }
 }

@@ -1,5 +1,5 @@
 import { Model, Sequelize, ModelAttributes, InitOptions, DataTypes } from 'sequelize'
-
+import IngressoComprado from './ingressoComprado';
 
 export default class Usuario extends Model {
     public id!: number;
@@ -21,9 +21,12 @@ export const attributes: ModelAttributes = {
 
 export function init(sequelize: Sequelize) {
     const initOptions: InitOptions = {
-        sequelize: sequelize,
-        freezeTableName: true
+        sequelize: sequelize
     }
 
     Usuario.init(attributes, initOptions);
+}
+
+export function associate() {
+    Usuario.hasMany(IngressoComprado, { foreignKey: 'idUsuario' });
 }

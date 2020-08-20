@@ -1,5 +1,5 @@
 import { Model, Sequelize, ModelAttributes, InitOptions, DataTypes } from 'sequelize'
-
+import IngressoComprado from './ingressoComprado';
 
 export default class Ingresso extends Model {
     public id!: number;
@@ -8,7 +8,7 @@ export default class Ingresso extends Model {
 }
 
 export const attributes: ModelAttributes = {
-    id: { type: DataTypes.BIGINT, primaryKey: true },
+    id: { type: DataTypes.BIGINT, primaryKey: true, autoIncrement: true },
     valor: { type: DataTypes.STRING, allowNull: false },
     descricao: { type: DataTypes.STRING }
 };
@@ -16,9 +16,12 @@ export const attributes: ModelAttributes = {
 export function init(sequelize: Sequelize) {
 
     const initOptions: InitOptions = {
-        sequelize: sequelize,
-        freezeTableName: true
+        sequelize: sequelize
     }
 
     Ingresso.init(attributes, initOptions);
+}
+
+export function associate() {
+    Ingresso.hasOne(IngressoComprado, {foreignKey: 'idIngresso'});
 }

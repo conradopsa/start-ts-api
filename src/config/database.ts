@@ -51,7 +51,9 @@ export default class Database {
             log(`${whiteBright('[Sequelize] Conexão realizada com sucesso!')}`);
 
             if (synchronize)
-                await this.sync();
+                await this.sync().then(() => {
+                    this.associateModels();
+                });
 
         } catch (exception) {
             error(`${red('[Sequelize] Erro ao conectar-se ao banco de dados: ')}`);
@@ -74,8 +76,6 @@ export default class Database {
 
             await this.sequelize.sync(syncOptions);
             log(`${whiteBright('[Sequelize] Sincronizado!')}`);
-
-            await this.associateModels();
 
         } catch (exception) {
             error(`${red('[Sequelize] Erro ao sincronizar o Banco de Dados')}`);

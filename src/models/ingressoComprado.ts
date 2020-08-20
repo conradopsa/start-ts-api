@@ -1,4 +1,4 @@
-import { Model, Sequelize, ModelAttributes, InitOptions, DataTypes } from 'sequelize'
+import { Model, Sequelize, ModelAttributes, InitOptions, DataTypes, ProjectionAlias } from 'sequelize'
 import Usuario from './usuario';
 import Ingresso from './ingresso';
 
@@ -14,7 +14,7 @@ export const attributes: ModelAttributes = {
     idIngresso: { type: DataTypes.INTEGER, allowNull: false,  references: { model: 'Ingresso', key: 'id' } }
 };
 
-export const basicAttributes = ['createdAt'];
+export const basicAttributes = [['createdAt', 'dataComprado']];
 
 export function init(sequelize: Sequelize) {
         const initOptions: InitOptions = {

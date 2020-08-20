@@ -1,6 +1,6 @@
-import Usuario from '../models/usuario';
-import IngressoComprado, {basicAttributes as ingressoCompradoBasicAttributes} from '../models/ingressoComprado';
-import Ingresso  from '../models/ingresso'
+import Usuario, { basicAttributes as usuarioBasicAttributes } from '../models/usuario';
+import IngressoComprado, { basicAttributes as ingressoCompradoBasicAttributes } from '../models/ingressoComprado';
+import Ingresso, { basicAttributes as ingressoBasicAttributes } from '../models/ingresso'
 import { Request, Response } from 'express';
 import { responseError, responseDeleted } from '../utils/serviceResponse';
 
@@ -16,8 +16,16 @@ class UsuarioController {
 
         await Usuario.findByPk(id, {
             include: ticketPurchased ?
-                { model: IngressoComprado, as: 'ingressosComprados', include: [Ingresso], attributes: ingressoCompradoBasicAttributes }
-                : undefined
+                {
+                    model: IngressoComprado,
+                    as: 'ingressosComprados',
+                    attributes: ingressoCompradoBasicAttributes,
+                    include: [{
+                        model: Ingresso,
+                        attributes: ingressoBasicAttributes
+                    }]
+                } : undefined,
+            attributes: usuarioBasicAttributes
         })
             .then((user) => {
                 if (user)

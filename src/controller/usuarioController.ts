@@ -1,21 +1,23 @@
-import Usuario from "../models/usuario";
-import IngressoComprado from "../models/ingressoComprado";
+import Usuario from '../models/usuario';
+import IngressoComprado, {basicAttributes as ingressoCompradoBasicAttributes} from '../models/ingressoComprado';
+import Ingresso  from '../models/ingresso'
 import { Request, Response } from 'express';
-import { responseError, responseDeleted } from "../utils/serviceResponse";
+import { responseError, responseDeleted } from '../utils/serviceResponse';
 
 function userNotFound(response: Response) {
     response.status(404).send("Usuário não encontrado");
 }
 
 class UsuarioController {
-    
 
     async getUsuario(request: Request, response: Response) {
         const { id } = request.params;
         const { ticketPurchased } = request.query;
 
         await Usuario.findByPk(id, {
-            include: ticketPurchased ? IngressoComprado : undefined
+            include: ticketPurchased ?
+                { model: IngressoComprado, as: 'ingressosComprados', include: [Ingresso], attributes: ingressoCompradoBasicAttributes }
+                : undefined
         })
             .then((user) => {
                 if (user)

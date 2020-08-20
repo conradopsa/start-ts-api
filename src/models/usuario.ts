@@ -19,6 +19,8 @@ export const attributes: ModelAttributes = {
     dataNascimento: { type: DataTypes.DATEONLY, allowNull: false }
 };
 
+export const basicAttributes = ['cpf', 'email', 'nomeCompleto', 'dataNascimento'];
+
 export function init(sequelize: Sequelize) {
     const initOptions: InitOptions = {
         sequelize: sequelize
@@ -28,5 +30,5 @@ export function init(sequelize: Sequelize) {
 }
 
 export function associate() {
-    Usuario.hasMany(IngressoComprado, { foreignKey: 'idUsuario' });
+    Usuario.hasMany(IngressoComprado, { foreignKey: 'idUsuario', as: 'ingressosComprados' });
 }

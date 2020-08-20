@@ -13,6 +13,8 @@ export const attributes: ModelAttributes = {
     descricao: { type: DataTypes.STRING }
 };
 
+export const basicAttributes = ['valor', 'descricao'];
+
 export function init(sequelize: Sequelize) {
 
     const initOptions: InitOptions = {
@@ -23,5 +25,5 @@ export function init(sequelize: Sequelize) {
 }
 
 export function associate() {
-    Ingresso.hasOne(IngressoComprado, {foreignKey: 'idIngresso'});
+    Ingresso.hasOne(IngressoComprado, { foreignKey: 'idIngresso' });
 }

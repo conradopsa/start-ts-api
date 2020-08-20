@@ -5,7 +5,7 @@ import Ingresso from './ingresso';
 export default class IngressoComprado extends Model {
     public id!: number;
     public idUsuario!: number;
-    public codigoIngresso!: number;
+    public idIngresso!: number;
 }
 
 export const attributes: ModelAttributes = {
@@ -13,6 +13,8 @@ export const attributes: ModelAttributes = {
     idUsuario: { type: DataTypes.BIGINT, references: { model: 'Usuario', key: 'id' } },
     idIngresso: { type: DataTypes.INTEGER, allowNull: false,  references: { model: 'Ingresso', key: 'id' } }
 };
+
+export const basicAttributes = ['createdAt'];
 
 export function init(sequelize: Sequelize) {
         const initOptions: InitOptions = {

@@ -1,6 +1,6 @@
 # Start Typescript API
 
-Olá, seja bem vindo! Esse projeto tem o objetivo de prover uma código fonte base, bem estruturado, para desenvolver APIs REST que se comunicam com SGBDs relacionais (PostgreSQL, MySQL etc.).
+Olá, seja bem vindo! Esse projeto tem o objetivo de prover um código fonte base, bem estruturado, para desenvolver APIs REST que se comunicam com SGBDs relacionais (PostgreSQL, MySQL etc.).
 
 ## Tecnologias
 
@@ -20,7 +20,9 @@ Esse projeto utiliza:
 2. Instale as dependências
 >$ npm install
 3. Renomeie o arquivo .env-example para .env
+
 4. Configure-o
+
 5. Execute o servidor
 >$ npm run watch
 6. Faça um teste:
@@ -30,7 +32,9 @@ Esse projeto utiliza:
 
 Para ajudar no desenvolvimento, o projeto já vem com 3 entidades relacionadas entre si e servindo um CRUD. Entidades essas: Usuario, Ingresso e IngressoComprado. Elas são apenas uma demonstração, um exemplo, portanto estão livres para serem apagadas, junto com seus serviços, em:
 > src/controllers
+
 > src/models
+
 > stc/routers
 
 ## Comandos
@@ -55,11 +59,16 @@ Compila o código:
 ## Arquitetura do projeto
 Esse projeto está aderindo o padrão MVC, onde:
 >**models** estão em src/models;
+
 >**views** estão em src/routers
+
 >**controllers** estão em src/controllers
 
 Módulos extras
 > *src/tasks* estão as tarefas
+
 > *src/utils*  estão os utilitários
+
 > *src/middleware* estão os middlewares
+
 > *src/config* estão as configurações

@@ -15,6 +15,7 @@ class UsuarioController {
         const { ticketPurchased } = request.query;
 
         await Usuario.findByPk(id, {
+            //@ts-ignore
             include: ticketPurchased ?
                 {
                     model: IngressoComprado,

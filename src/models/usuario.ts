@@ -1,5 +1,6 @@
 import { Model, Sequelize, ModelAttributes, InitOptions, DataTypes } from 'sequelize'
-import IngressoComprado from './ingressoComprado';
+import IngressoComprado, { basicAttributes as ingressoCompradoBasicAttributes } from './ingressoComprado';
+import Ingresso, { basicAttributes as ingressoBasicAttributes } from './ingresso';
 
 export default class Usuario extends Model {
     public id!: number;
@@ -23,7 +24,25 @@ export const basicAttributes = ['cpf', 'email', 'nomeCompleto', 'dataNascimento'
 
 export function init(sequelize: Sequelize) {
     const initOptions: InitOptions = {
-        sequelize: sequelize
+        sequelize: sequelize,
+        defaultScope: {
+            attributes: basicAttributes
+        },
+        scopes: {
+            withIngressos: {
+                //@ts-ignore
+                include: {
+                    model: IngressoComprado,
+                    as: 'ingressosComprados',
+                    attributes: ingressoCompradoBasicAttributes,
+                    include: [{
+                        model: Ingresso,
+                        attributes: ingressoBasicAttributes
+                    }]
+                },
+                attributes: basicAttributes
+            }
+        }
     }
 
     Usuario.init(attributes, initOptions);

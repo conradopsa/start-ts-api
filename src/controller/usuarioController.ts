@@ -1,6 +1,4 @@
-import Usuario, { basicAttributes as usuarioBasicAttributes } from '../models/usuario';
-import IngressoComprado, { basicAttributes as ingressoCompradoBasicAttributes } from '../models/ingressoComprado';
-import Ingresso, { basicAttributes as ingressoBasicAttributes } from '../models/ingresso'
+import Usuario from '../models/usuario';
 import { Request, Response } from 'express';
 import { responseError, responseDeleted } from '../utils/serviceResponse';
 
@@ -12,22 +10,11 @@ class UsuarioController {
 
     async getUsuario(request: Request, response: Response) {
         const { id } = request.params;
-        const { ticketPurchased } = request.query;
+        const { ingressosComprados } = request.query;
 
-        await Usuario.findByPk(id, {
-            //@ts-ignore
-            include: ticketPurchased ?
-                {
-                    model: IngressoComprado,
-                    as: 'ingressosComprados',
-                    attributes: ingressoCompradoBasicAttributes,
-                    include: [{
-                        model: Ingresso,
-                        attributes: ingressoBasicAttributes
-                    }]
-                } : undefined,
-            attributes: usuarioBasicAttributes
-        })
+        let scopeUsuario = ingressosComprados ? Usuario.scope('withIngressos') : Usuario;
+        
+        await scopeUsuario.findByPk(id)
             .then((user) => {
                 if (user)
                     response.json(user)

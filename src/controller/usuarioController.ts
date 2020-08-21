@@ -16,11 +16,10 @@ class UsuarioController {
         
         await scopeUsuario.findByPk(id)
             .then((user) => {
-                if (user)
-                    response.json(user)
-                else
-                    userNotFound(response);
-
+                if (!user)
+                    return userNotFound(response);
+                
+                response.json(user)
             })
             .catch((error: Error) =>
                 responseError(error, response));
@@ -41,10 +40,10 @@ class UsuarioController {
         const body = request.body;
 
         await Usuario.findByPk(id).then(user => {
-            if (user)
-                user.update(body).then(user => response.send(user));
-            else
-                userNotFound(response);
+            if (!user)
+                return userNotFound(response);
+
+            user.update(body).then(user => response.send(user));                
         })
     }
 
@@ -52,11 +51,12 @@ class UsuarioController {
         const { cpf } = request.params;
 
         await Usuario.findByPk(cpf).then(user => {
-            if (user)
-                user.destroy().then(() =>
-                    responseDeleted(response, "Usuário deletado!", user));
-            else
-                userNotFound(response);
+            if (!user)
+                return userNotFound(response);
+            
+            user.destroy().then(() =>
+                responseDeleted(response, "Usuário deletado!", user));
+                
         })
             .catch((error: Error) =>
                 responseError(error, response));

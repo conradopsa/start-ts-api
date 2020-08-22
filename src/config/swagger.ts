@@ -1,7 +1,8 @@
 import { Options } from 'swagger-jsdoc';
 
 export const swaggerOptions: Options = {
-    swaggerDefinition: {
+    definition: {
+        openapi: "3.0.3",
         info: {
             version: "1.0.0",
             title: "Start Typescript API",

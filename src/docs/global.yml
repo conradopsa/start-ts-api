@@ -1,0 +1,12 @@
+components:
+  responses:
+    200:
+      description: Sucesso
+    400:
+      description: Requisição mal feita
+    404:
+      description: Nada encontrado
+    500:
+      description: Erro no Servidor
+    default:
+      description: Erro Inesperado

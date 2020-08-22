@@ -16,7 +16,7 @@ Esse projeto utiliza:
 
 **PostgreSQL 12**: como SGBD, podendo ser facilmente substituído por outro;
 
-**Swagger 2**: para documentar as rotas;
+**Swagger (Open API 3)**: para documentar as rotas;
 
 
 ## Getting Started

@@ -15,6 +15,7 @@ Esse projeto utiliza:
 **Sequelize 6.3**: para definir, manipular e consultar o banco de dados;
 
 **PostgreSQL 12**: como SGBD, podendo ser facilmente substituído por outro;
+
 **Swagger 2**: para documentar as rotas;
 
 

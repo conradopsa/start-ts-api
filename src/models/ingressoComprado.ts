@@ -10,7 +10,7 @@ export default class IngressoComprado extends Model {
 
 export const attributes: ModelAttributes = {
     id: { type: DataTypes.BIGINT, primaryKey: true, autoIncrement: true },
-    idUsuario: { type: DataTypes.BIGINT, references: { model: 'Usuario', key: 'id' } },
+    idUsuario: { type: DataTypes.BIGINT, allowNull: true, references: { model: 'Usuario', key: 'id' } },
     idIngresso: { type: DataTypes.INTEGER, allowNull: false,  references: { model: 'Ingresso', key: 'id' } }
 };
 

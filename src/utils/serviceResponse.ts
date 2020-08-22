@@ -18,7 +18,8 @@ export function responseDeleted(response: Response, message?: string, deletedObj
         message: message || "Registro deletado!",
         deletedObject: deletedObject
     }
-    response.status(200).json(responseDeleted);
+    
+    return response.status(200).json(responseDeleted);
 }
 
 

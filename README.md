@@ -41,7 +41,9 @@ Para ajudar no desenvolvimento, o projeto já vem com 3 entidades relacionadas e
 
 > src/models
 
-> stc/routers
+> src/routers
+
+> src/docs
 
 ## Comandos
 Compila e executa, sempre que houver alterações no código:

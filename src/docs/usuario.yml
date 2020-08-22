@@ -1,0 +1,28 @@
+/usuario:
+  get:
+    tags:
+      - "Usuario"
+    description: Listar todos os usuários
+    responses:
+      "200":
+        description: A successful response
+/usuario/{id}:
+  get:
+    tags:
+      - "Usuario"
+    description: Listar todos os usuários
+    responses:
+      "200":
+        description: A successful response
+  parameters:
+    - name: "id"
+      in: "path"
+      description: "Id do usuário"
+      required: true
+      type: "integer"
+      format: "int64"
+    - name: "ingressosComprados"
+      in: "query"
+      description: "Retornar usuário com seus respectivos ingressos comprados"
+      type: "boolean"
+      default: true

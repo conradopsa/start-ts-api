@@ -10,7 +10,7 @@ Esse projeto utiliza:
 **Express 4.17**: para fornecer as rotas e iniciar o servidor REST;
 **Sequelize 6.3**: para definir, manipular e consultar o banco de dados;
 **PostgreSQL 12**: como SGBD, podendo ser facilmente substituído por outro;
-<!--- **Swagger**: para documentar as rotas; --->
+**Swagger 2**: para documentar as rotas;
 
 
 ## Getting Started

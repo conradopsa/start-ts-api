@@ -1,9 +1,13 @@
 import Database from './config/database';
 import express, { Express } from 'express';
 import dotenv from 'dotenv';
-import { green } from 'chalk';
+import { green, red, whiteBright } from 'chalk';
 import routers from './routers';
 import middleware from './middleware';
+
+import swaggerUi from 'swagger-ui-express';
+import swaggerJSDoc from 'swagger-jsdoc';
+import { swaggerOptions } from './config/swagger';
 
 //Init .env
 dotenv.config();
@@ -12,36 +16,38 @@ const { log } = console;
 const { SERVER_PORT } = process.env;
 
 class App {
-    private _database: Database;
-    private _app: Express;
+    private readonly database: Database;
+    private readonly app: Express;
 
     constructor() {
-        this._database = new Database();
-        this._app = express();
+        this.database = new Database();
+        this.app = express();
+
+        this.start();
     }
 
-    get database() {
-        return this._database;
-    }
+    private async start() {
+        try {
+            await this.database.connect();
 
-    get app() {
-        return this._app;
-    }
+            this.app.use(middleware);
 
-    public async start() {
-        await this.database.connect();
+            this.app.use('/docs',
+                swaggerUi.serve,
+                swaggerUi.setup(
+                    swaggerJSDoc(swaggerOptions)));
 
-        this.app.use(middleware);
+            this.app.use('/', routers);
 
-        this.app.use('/', routers);
+            this.app.listen(SERVER_PORT, () => {
+                log(`${whiteBright(`Documentação disponível em http://localhost:${SERVER_PORT}/docs`)}`)
+                log(`${green(`Servidor Iniciado em http://localhost:${SERVER_PORT}/`)}`)
+            });
 
-        this.app.listen(SERVER_PORT, () => {
-            log(`${green(`Servidor Iniciado em http://localhost:${SERVER_PORT}/`)}`)
-        });
+        } catch (error) {
+            console.error(red(error.stack));
+        }
     }
 }
 
-const app = new App();
-app.start();
-
-export default app;
+export default new App();

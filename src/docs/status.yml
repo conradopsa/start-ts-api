@@ -1,0 +1,8 @@
+/status:
+  get:
+    tags:
+      - "Status"
+    description: Use para verificar se a API está no ar
+    responses:
+      "200":
+        description: A successful response

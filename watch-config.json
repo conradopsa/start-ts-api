@@ -9,5 +9,5 @@
         ".env",
         "*.*"
     ],
-    "ext": "ts,js,json,html"
+    "ext": "ts,js,json,html,yml"
 }

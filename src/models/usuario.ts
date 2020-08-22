@@ -20,7 +20,7 @@ export const attributes: ModelAttributes = {
     dataNascimento: { type: DataTypes.DATEONLY, allowNull: false }
 };
 
-export const basicAttributes = ['cpf', 'email', 'nomeCompleto', 'dataNascimento'];
+export const basicAttributes = ['id', 'cpf', 'email', 'nomeCompleto', 'dataNascimento'];
 
 export function init(sequelize: Sequelize) {
     const initOptions: InitOptions = {

@@ -1,24 +1,36 @@
 import Usuario from '../models/usuario';
 import { Request, Response } from 'express';
 import { responseError, responseDeleted } from '../utils/serviceResponse';
+import { toBoolean } from '../utils/convert';
 
 function userNotFound(response: Response) {
     response.status(404).send("Usuário não encontrado");
 }
 
 class UsuarioController {
+    async listUsuarios(request: Request, response: Response) {
+
+        await Usuario.findAll().then(
+            (users) => {
+                response.json(users);
+            })
+            .catch((error: Error) =>
+                responseError(error, response));
+
+    }
 
     async getUsuario(request: Request, response: Response) {
         const { id } = request.params;
         const { ingressosComprados } = request.query;
 
-        let scopeUsuario = ingressosComprados ? Usuario.scope('withIngressos') : Usuario;
-        
+        let scopeUsuario = toBoolean(ingressosComprados?.toString()) ? 
+            Usuario.scope('withIngressos') : Usuario;
+
         await scopeUsuario.findByPk(id)
             .then((user) => {
                 if (!user)
                     return userNotFound(response);
-                
+
                 response.json(user)
             })
             .catch((error: Error) =>
@@ -43,7 +55,7 @@ class UsuarioController {
             if (!user)
                 return userNotFound(response);
 
-            user.update(body).then(user => response.send(user));                
+            user.update(body).then(user => response.send(user));
         })
     }
 
@@ -53,10 +65,10 @@ class UsuarioController {
         await Usuario.findByPk(cpf).then(user => {
             if (!user)
                 return userNotFound(response);
-            
+
             user.destroy().then(() =>
                 responseDeleted(response, "Usuário deletado!", user));
-                
+
         })
             .catch((error: Error) =>
                 responseError(error, response));

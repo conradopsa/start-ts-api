@@ -1,6 +1,6 @@
 import { Model, Sequelize, ModelAttributes, InitOptions, DataTypes, ProjectionAlias } from 'sequelize'
 import Usuario from './usuario';
-import Ingresso from './ingresso';
+import Ingresso, { basicAttributes as ingressoBasicAttributes } from './ingresso';
 
 export default class IngressoComprado extends Model {
     public id!: number;
@@ -11,17 +11,25 @@ export default class IngressoComprado extends Model {
 export const attributes: ModelAttributes = {
     id: { type: DataTypes.BIGINT, primaryKey: true, autoIncrement: true },
     idUsuario: { type: DataTypes.BIGINT, allowNull: true, references: { model: 'Usuario', key: 'id' } },
-    idIngresso: { type: DataTypes.INTEGER, allowNull: false,  references: { model: 'Ingresso', key: 'id' } }
+    idIngresso: { type: DataTypes.BIGINT, unique: true, allowNull: false, references: { model: 'Ingresso', key: 'id' } }
 };
 
 export const basicAttributes = [['createdAt', 'dataComprado']];
 
 export function init(sequelize: Sequelize) {
-        const initOptions: InitOptions = {
-            sequelize: sequelize
+    const initOptions: InitOptions = {
+        sequelize: sequelize,
+        defaultScope: {
+            //@ts-ignore
+            attributes: basicAttributes,
+            include: {
+                model: Ingresso,
+                attributes: ingressoBasicAttributes
+            }
         }
-    
-        IngressoComprado.init(attributes, initOptions);
+    }
+
+    IngressoComprado.init(attributes, initOptions);
 }
 
 export function associate() {

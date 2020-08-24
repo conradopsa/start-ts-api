@@ -33,7 +33,7 @@ export function init(sequelize: Sequelize) {
                 //@ts-ignore
                 include: {
                     model: IngressoComprado,
-                    as: 'ingressosComprados',
+                    as: 'IngressosComprados',
                     attributes: ingressoCompradoBasicAttributes,
                     include: [{
                         model: Ingresso,
@@ -49,5 +49,5 @@ export function init(sequelize: Sequelize) {
 }
 
 export function associate() {
-    Usuario.hasMany(IngressoComprado, { foreignKey: 'idUsuario', as: 'ingressosComprados' });
+    Usuario.hasMany(IngressoComprado, { foreignKey: 'idUsuario', as: 'IngressosComprados' });
 }

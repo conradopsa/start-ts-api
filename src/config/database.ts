@@ -33,7 +33,8 @@ export default class Database {
         this.sequelize = new Sequelize(URI, <Options>{
             logging: this.sqlDebug,
             define: {
-                freezeTableName: true
+                freezeTableName: true,
+                paranoid: true
             }
         });
 

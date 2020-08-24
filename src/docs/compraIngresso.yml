@@ -1,0 +1,53 @@
+/ingressosComprados:
+  get:
+    tags:
+      - "Compra Ingresso"
+    description: Listar ou contar ingressos comprados
+    parameters:
+      - name: "contar"
+        in: "query"
+        description: "Retornar usuário com seus respectivos ingressos comprados"
+        schema:
+          type: boolean
+        default: true
+    responses:
+      200:
+        $ref: "#/components/responses/200"
+      400:
+        $ref: "#/components/responses/400"
+      404:
+        $ref: "#/components/responses/404"
+      500:
+        $ref: "#/components/responses/500"
+      default:
+        $ref: "#/components/responses/default"
+
+/usuario/{idUsuario}/compraIngresso/{idIngresso}:
+  parameters:
+    - name: "idUsuario"
+      in: "path"
+      description: "Id do usuário"
+      required: true
+      type: "integer"
+      format: "int64"
+    - name: "idIngresso"
+      in: "path"
+      description: "Id do ingresso"
+      required: true
+      type: "integer"
+      format: "int64"
+  post:
+    tags:
+      - "Compra Ingresso"
+    description: Registrar compra de um ingresso
+    responses:
+      200:
+        $ref: "#/components/responses/200"
+      400:
+        $ref: "#/components/responses/400"
+      404:
+        $ref: "#/components/responses/404"
+      500:
+        $ref: "#/components/responses/500"
+      default:
+        $ref: "#/components/responses/default"

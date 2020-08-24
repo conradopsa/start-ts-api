@@ -10,3 +10,7 @@ components:
       description: Erro no Servidor
     default:
       description: Erro Inesperado
+
+definitions:
+  object:
+      type: object

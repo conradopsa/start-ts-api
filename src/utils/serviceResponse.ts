@@ -22,6 +22,13 @@ export function responseDeleted(response: Response, message?: string, deletedObj
     return response.status(200).json(responseDeleted);
 }
 
+export function responseNotFound(response: Response, message?: string) {
+    const error: ErrorMessage = {
+        message: message || "Nada encontrado"
+    };
+
+    return response.status(404).send(error);
+}
 
 export interface ErrorMessage {
     message: string,

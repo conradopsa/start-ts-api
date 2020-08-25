@@ -1,8 +1,8 @@
-/ingressosComprados:
+/ingresso:
   get:
     tags:
-      - "Compra Ingresso"
-    description: Listar ingressos comprados
+      - "Ingresso"
+    description: Listar todos os ingressos
     responses:
       200:
         $ref: "#/components/responses/200"
@@ -15,24 +15,16 @@
       default:
         $ref: "#/components/responses/default"
 
-/usuario/{idUsuario}/compraIngresso/{idIngresso}:
-  parameters:
-    - name: "idUsuario"
-      in: "path"
-      description: "Id do usuário"
-      required: true
-      type: "integer"
-      format: "int64"
-    - name: "idIngresso"
-      in: "path"
-      description: "Id do ingresso"
-      required: true
-      type: "integer"
-      format: "int64"
   post:
     tags:
-      - "Compra Ingresso"
-    description: Registrar compra de um ingresso
+      - "Ingresso"
+    description: Inserir novos ingressos
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: "#/definitions/ingresso"
     responses:
       200:
         $ref: "#/components/responses/200"
@@ -44,3 +36,14 @@
         $ref: "#/components/responses/500"
       default:
         $ref: "#/components/responses/default"
+
+definitions:
+  ingresso:
+    properties:
+      valor:
+        type: integer
+      descricao:
+        type: string
+    example:
+      valor: 13.50
+      descricao: Sociedade dos Poetas Mortos

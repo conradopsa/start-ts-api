@@ -1,14 +1,7 @@
-import Usuario from '../models/usuario';
-import Ingresso from '../models/ingresso';
 import IngressoComprado from '../models/ingressoComprado';
 
 import { Request, Response } from 'express';
-import { responseError, responseDeleted, responseNotFound } from '../utils/serviceResponse';
-import { toBoolean } from '../utils/convert';
-
-async function ticketNotFound(response: Response) {
-    return responseNotFound(response, "Ingressos não encontrados")
-}
+import { responseError } from '../utils/serviceResponse';
 
 class CompraIngressoController {
     async listarIngressosComprados(request: Request, response: Response) {

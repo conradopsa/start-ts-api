@@ -1,14 +1,10 @@
 import Usuario from '../models/usuario';
 import { Request, Response } from 'express';
-import { responseError, responseDeleted, ErrorMessage } from '../utils/serviceResponse';
+import { responseError, responseDeleted, responseNotFound } from '../utils/serviceResponse';
 import { toBoolean } from '../utils/convert';
 
 async function userNotFound(response: Response) {
-    const error: ErrorMessage = {
-        message: "Usuário não encontrado"
-    };
-
-    return response.status(404).send(error);
+    return responseNotFound(response, "Usuário não encontrado")
 }
 
 class UsuarioController {

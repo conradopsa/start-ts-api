@@ -23,7 +23,7 @@
       content:
         application/json:
           schema:
-            $ref: "#/definitions/object"
+            $ref: "#/definitions/usuario"
     responses:
       200:
         $ref: "#/components/responses/200"
@@ -75,7 +75,7 @@
       content:
         application/json:
           schema:
-            $ref: "#/definitions/object"
+            $ref: "#/definitions/usuario"
     responses:
       200:
         $ref: "#/components/responses/200"
@@ -102,3 +102,30 @@
         $ref: "#/components/responses/500"
       default:
         $ref: "#/components/responses/default"
+
+
+#"cpf": "724124153514",
+#"email": "b@gmail.com",
+#"nomeCompleto": "teste",
+#"senha": "123",
+#"dataNascimento": "2000-05-08"
+
+definitions:
+  usuario:
+    properties:
+      cpf:
+        type: integer
+      email:
+        type: string
+      nomeCompleto:
+        type: string
+      senha:
+        type: string
+      dataNascimento:
+        type: date
+    example:
+      cpf: 10000000000
+      email: conradopsa@gmail.com
+      nomeCompleto: Conrado Pinheiro
+      senha: "123"
+      dataNascimento: "2000-01-01"

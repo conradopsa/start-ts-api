@@ -69,13 +69,15 @@ class UsuarioController {
         try {
             const { id } = request.params;
             const body = request.body;
-
+            
             const user = await Usuario.findByPk(id)
 
             if (!user)
                 throw new Error(USER_NOT_FOUND);
 
-            const newUser = await user.update(body);
+            const newUser = await user.update(body, {
+                transaction: transaction
+            });
 
             await transaction.commit();
             response.send(newUser);
@@ -90,13 +92,14 @@ class UsuarioController {
 
         try {
             const { id } = request.params;
-
             const user = await Usuario.findByPk(id);
 
             if (!user)
                 throw new Error(USER_NOT_FOUND);
 
-            const deletedUser = await user.destroy()
+            const deletedUser = await user.destroy({
+                transaction: transaction
+            });
 
             await transaction.commit();
             responseUserDeleted(response, deletedUser);

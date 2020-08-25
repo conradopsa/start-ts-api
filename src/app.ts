@@ -16,8 +16,8 @@ const { log } = console;
 const { SERVER_PORT } = process.env;
 
 class App {
-    private readonly database: Database;
-    private readonly app: Express;
+    readonly database: Database;
+    readonly app: Express;
 
     constructor() {
         this.database = new Database();

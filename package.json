@@ -12,7 +12,7 @@
     "clear:watch": "nodemon --config watch-config.json --exec \"npm run clear:compile\""
   },
   "keywords": [],
-  "author": "",
+  "author": "Conrado Pinheiro <conradopsa@gmail.com>",
   "license": "ISC",
   "dependencies": {
     "@types/express": "^4.17.7",

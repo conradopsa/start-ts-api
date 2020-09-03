@@ -3,7 +3,7 @@ import { Sequelize, Options } from 'sequelize';
 import { highDebug } from '../utils/debugLevel';
 import { red, whiteBright } from 'chalk';
 import { toBoolean } from '../utils/convert';
-import { models } from '../models';
+import models from '../models';
 
 //Init .env
 dotenv.config();
@@ -85,17 +85,17 @@ export default class Database {
     };
 
     private async initModels() {
-        await models.then(models => models
-            .forEach(model => model.init(this.sequelize))
-        )
+        await models.then(Models => Models
+            .forEach(Model => Model.initDefault(this.sequelize))
+        );
 
         highDebug("[Sequelize] Models iniciadas!");
     }
 
     private async associateModels() {
-        await models.then(models => models
-            .forEach(model => model.associate())
-        )
+        await models.then(Models =>
+            Models.forEach(Model => Model.associate())
+        );
 
         highDebug("[Sequelize] Associações realizadas!");
     }

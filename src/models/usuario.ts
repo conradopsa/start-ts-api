@@ -1,53 +1,54 @@
-import { Model, Sequelize, ModelAttributes, InitOptions, DataTypes } from 'sequelize'
-import IngressoComprado, { basicAttributes as ingressoCompradoBasicAttributes } from './ingressoComprado';
-import Ingresso, { basicAttributes as ingressoBasicAttributes } from './ingresso';
+import { Sequelize, ModelAttributes, InitOptions, DataTypes } from 'sequelize'
+import IngressoComprado from './ingressoComprado';
+import Ingresso from './ingresso';
+import { SuperModel } from '.';
 
-export default class Usuario extends Model {
-    public id!: number;
-    public cpf!: number;
-    public email!: string;
-    public nomeCompleto!: string;
-    public senha!: string;
-    public dataNascimento!: Date;
-}
+export default class Usuario extends SuperModel {
+    id!: number;
+    cpf!: number;
+    email!: string;
+    nomeCompleto!: string;
+    senha!: string;
+    dataNascimento!: Date;
 
-export const attributes: ModelAttributes = {
-    id: { type: DataTypes.BIGINT, primaryKey: true, autoIncrement: true },
-    cpf: { type: DataTypes.BIGINT, unique: true },
-    email: { type: DataTypes.STRING, allowNull: false, unique: true },
-    nomeCompleto: { type: DataTypes.STRING, allowNull: false },
-    senha: { type: DataTypes.STRING, allowNull: false },
-    dataNascimento: { type: DataTypes.DATEONLY, allowNull: false }
-};
+    static basicAttributes = ['id', 'cpf', 'email', 'nomeCompleto', 'dataNascimento'];
 
-export const basicAttributes = ['id', 'cpf', 'email', 'nomeCompleto', 'dataNascimento'];
-
-export function init(sequelize: Sequelize) {
-    const initOptions: InitOptions = {
-        sequelize: sequelize,
-        defaultScope: {
-            attributes: basicAttributes
-        },
-        scopes: {
-            withIngressos: {
-                //@ts-ignore
-                include: {
-                    model: IngressoComprado,
-                    as: 'IngressosComprados',
-                    attributes: ingressoCompradoBasicAttributes,
-                    include: [{
-                        model: Ingresso,
-                        attributes: ingressoBasicAttributes
-                    }]
-                },
-                attributes: basicAttributes
+    static initDefault(sequelize: Sequelize) {
+        const attributes: ModelAttributes = {
+            id: { type: DataTypes.BIGINT, primaryKey: true, autoIncrement: true },
+            cpf: { type: DataTypes.BIGINT, unique: true },
+            email: { type: DataTypes.STRING, allowNull: false, unique: true },
+            nomeCompleto: { type: DataTypes.STRING, allowNull: false },
+            senha: { type: DataTypes.STRING, allowNull: false },
+            dataNascimento: { type: DataTypes.DATEONLY, allowNull: false }
+        };
+    
+        const initOptions: InitOptions = {
+            sequelize: sequelize,
+            defaultScope: {
+                attributes: Usuario.basicAttributes
+            },
+            scopes: {
+                withIngressos: {
+                    //@ts-ignore
+                    include: {
+                        model: IngressoComprado,
+                        as: 'IngressosComprados',
+                        attributes: IngressoComprado.basicAttributes,
+                        include: [{
+                            model: Ingresso,
+                            attributes: Ingresso.basicAttributes
+                        }]
+                    },
+                    attributes: Usuario.basicAttributes
+                }
             }
         }
+    
+        Usuario.init(attributes, initOptions);
     }
 
-    Usuario.init(attributes, initOptions);
-}
-
-export function associate() {
-    Usuario.hasMany(IngressoComprado, { foreignKey: 'idUsuario', as: 'IngressosComprados' });
+    static associate() {
+        Usuario.hasMany(IngressoComprado, { foreignKey: 'idUsuario', as: 'IngressosComprados' });
+    }
 }

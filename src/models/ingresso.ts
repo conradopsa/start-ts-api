@@ -1,29 +1,29 @@
-import { Model, Sequelize, ModelAttributes, InitOptions, DataTypes } from 'sequelize'
+import { Sequelize, ModelAttributes, InitOptions, DataTypes } from 'sequelize'
 import IngressoComprado from './ingressoComprado';
+import { SuperModel } from '.';
 
-export default class Ingresso extends Model {
-    public id!: number;
-    public valor!: number;
-    public descricao!: string | null;
-}
+export default class Ingresso extends SuperModel {
+    id!: number;
+    valor!: number;
+    descricao!: string | null;
 
-export const attributes: ModelAttributes = {
-    id: { type: DataTypes.BIGINT, primaryKey: true, autoIncrement: true },
-    valor: { type: DataTypes.STRING, allowNull: false },
-    descricao: { type: DataTypes.STRING }
-};
+    static basicAttributes = ['valor', 'descricao'];
 
-export const basicAttributes = ['valor', 'descricao'];
+    static initDefault(sequelize: Sequelize) {
+        const attributes: ModelAttributes = {
+            id: { type: DataTypes.BIGINT, primaryKey: true, autoIncrement: true },
+            valor: { type: DataTypes.STRING, allowNull: false },
+            descricao: { type: DataTypes.STRING }
+        };
 
-export function init(sequelize: Sequelize) {
+        const initOptions: InitOptions = {
+            sequelize: sequelize
+        }
 
-    const initOptions: InitOptions = {
-        sequelize: sequelize
+        Ingresso.init(attributes, initOptions);
     }
 
-    Ingresso.init(attributes, initOptions);
-}
-
-export function associate() {
-    Ingresso.hasOne(IngressoComprado, { foreignKey: 'idIngresso' });
+    static associate() {
+        Ingresso.hasOne(IngressoComprado, { foreignKey: 'idIngresso' });
+    }
 }

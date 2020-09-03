@@ -1,19 +1,17 @@
-import { Model, Sequelize, ModelAttributes } from 'sequelize'
+import { Model, Sequelize } from 'sequelize'
 import path from 'path';
 import { getRecursiveImports } from '../utils/autoImport';
 
-export interface ModelModule {
-    default: Model,
-    attributes: ModelAttributes,
-    basicAttributes: string[],
-    init: ((sequelize: Sequelize) => void),
-    associate: (() => void)
+export class SuperModel extends Model {
+    static basicAttributes?: string[] | string[][];
+    static associate = () => {};
+    static initDefault = (sequelize: Sequelize) => {};    
 }
 
-async function getModels(): Promise<ModelModule[]> {
+async function getModels(): Promise<(typeof SuperModel)[]> {
     const CURRENT_DIR = path.dirname(__filename);
 
-    return await getRecursiveImports(CURRENT_DIR, false);
+    return await getRecursiveImports(CURRENT_DIR);
 }
 
-export const models: Promise<ModelModule[]> = getModels();
+export default getModels();

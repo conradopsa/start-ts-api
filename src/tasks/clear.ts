@@ -13,22 +13,22 @@ const rl = readline.createInterface({
     output: process.stdout
 });
 
-function remove() {
+export function removeBuildFolder() {
     fs.rmdirSync(ROOT_DIR, { recursive: true });
-    log("Sucesso!")
+    log("Limpeza realizada!")
 }
 
-if (process.argv[2]?.toLowerCase() == '-f'){
-    remove();
+if (process.argv[2]?.toLowerCase() == '-f') {
+    removeBuildFolder();
     exit();
-}    
+}
 
 rl.question(`Você deseja remover a pasta ${green(ROOT_DIR)} ? ${blue('[S/N] | [Y/N]')}\n`, (answer: string) => {
 
     let lowerAnswer = answer[0]?.toLowerCase();
 
     if ((lowerAnswer != undefined && (lowerAnswer == 's' || lowerAnswer == 'y')))
-        remove();
+        removeBuildFolder();
 
     rl.close();
 });

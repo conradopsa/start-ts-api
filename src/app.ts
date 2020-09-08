@@ -20,6 +20,8 @@ class App {
     readonly app: Express;
 
     constructor() {
+        log(whiteBright("Iniciando a aplicação. . ."))
+
         this.database = new Database();
         this.app = express();
 
